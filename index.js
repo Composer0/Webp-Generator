@@ -1,16 +1,20 @@
-// script.js
-
 document.addEventListener('DOMContentLoaded', function() {
+    window.onbeforeunload = function() {
+        // Clear the image data
+        webpImages.length = 0;
+      };
     const UimagesContainer = document.querySelector("#Uimages");
     const WimagesContainer = document.querySelector("#Wimages");
     const webpImages = [];
     const downloadButton = document.querySelector("#downloadButton");
     const inputElement = document.getElementById('userImage');
+    let imagesProcessed = 0;
+  
     const convertImages = function(event) {
       if (event.target.files.length > 0) {
-        // Show user images
-  
-        let imagesProcessed = 0;
+        // Slider Value
+        const slider = document.getElementById('slider');
+        const sliderValue = parseFloat(slider.value);
   
         for (let i = 0; i < event.target.files.length; i++) {
           let file = event.target.files[i];
@@ -19,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
           // Show original image
           let originalImage = document.createElement('img');
           originalImage.src = src;
+          originalImage.setAttribute('data-index', i); // Set the image index as a data attribute
           UimagesContainer.appendChild(originalImage);
   
           // Convert image to WebP
@@ -44,22 +49,56 @@ document.addEventListener('DOMContentLoaded', function() {
                 convertedImage.src = webpImage;
                 WimagesContainer.appendChild(convertedImage);
   
+                // Store Webp image data with original filename
+                const originalFilename = file.name;
+                const webpFilename = getWebpFilename(originalFilename);
+                const imageIndex = parseInt(originalImage.getAttribute('data-index')); // get the image index from the data-index attribute
+  
                 // Store WebP image data
-                webpImages.push({ name: file.name, data: webpImage });
+                webpImages[imageIndex] = { name: originalFilename, data: webpImage, filename: webpFilename };
   
                 imagesProcessed++; // Increment the processed image count.
   
                 // Check to ensure all images have been uploaded and converted
                 if (imagesProcessed === event.target.files.length) {
+                  renderWebpImages();
                   downloadButton.style.display = 'block';
                 }
               };
               reader.readAsDataURL(blob);
-            }, 'image/webp', 0.75);
+            }, 'image/webp', sliderValue);
           };
         }
       }
     };
+  
+    // Update the slider value display
+    const slider = document.getElementById('slider');
+    const sliderValueDisplay = document.getElementById('sliderValue');
+    slider.addEventListener('input', function() {
+      sliderValueDisplay.textContent = this.value;
+    });
+  
+    function getWebpFilename(originalFilename) {
+      const extensionIndex = originalFilename.lastIndexOf('.');
+      const filename = originalFilename.substring(0, extensionIndex);
+      return filename + '.webp';
+    }
+  
+    function renderWebpImages() {
+      // Clear the existing images
+      WimagesContainer.innerHTML = '';
+  
+      // Render WebP images in order
+      for (let i = 0; i < webpImages.length; i++) {
+        const { name, data } = webpImages[i];
+  
+        // Show WebP image
+        let convertedImage = document.createElement('img');
+        convertedImage.src = data;
+        WimagesContainer.appendChild(convertedImage);
+      }
+    }
   
     const downloadImages = function() {
       if (webpImages.length > 0) {
