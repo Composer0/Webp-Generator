@@ -3,25 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Convert images into the webp format.">
     <title>WebP Generator</title>
     <!-- places files into a zip folder -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dist/styles.css">
 </head>
 <body>
     <div class="convert">
         <h1>Convert to WebP</h1>
-        <input type="file" accept="image/*" name="convert" id="userImage" multiple>
-        <div class="mask">
+        <input aria-label="Upload an image button" type="file" accept="image/*" name="convert" id="userImage" multiple>
+        <div class="mask";
+        ">
             <h4>Upload Images</h4>
         </div>
-        <button id="downloadButton">Download WebP</button>
+        <button id="downloadButton" data-single-file="true">Download WebP</button>
         <div class="slider-wrapper">
             <div class="slider-info-wrapper">
                 <p>More Compression</p>
-                <input type="range" id="slider" min="0.1" max="1" step="0.01" value="0.75">
+                <input aria-label="slider to change the compression rate of the images" type="range" id="slider" min="0.1" max="1" step="0.01" value="0.75">
                 <p>Less Compression</p>
             </div>
             <span id="sliderValue">0.75</span>
@@ -53,9 +55,9 @@
         </div>
     </div>
    
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>	
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="index.js"></script>
+    <script src="dist/index.js"></script>
 </body>
 </html>
