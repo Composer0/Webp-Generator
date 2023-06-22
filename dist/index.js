@@ -2,12 +2,19 @@ document.addEventListener('DOMContentLoaded', function() {
   const UimagesContainer = document.querySelector("#Uimages");
   const WimagesContainer = document.querySelector("#Wimages");
   const webpImages = [];
-  const downloadButton = document.querySelector("#downloadButton");
+  const downloadButtonSingle = document.querySelector("#downloadButtonSingle");
+  const downloadButtonMultiple = document.querySelector("#downloadButtonMultiple");
   const inputElement = document.getElementById('userImage');
   let imagesProcessed = 0;
 
   const convertImages = function(event) {
     if (event.target.files.length > 0) {
+      // Remove existing images and reset variables
+      UimagesContainer.innerHTML = '';
+      WimagesContainer.innerHTML = '';
+      webpImages.length = 0;
+      imagesProcessed = 0;
+
       // Slider Value
       const slider = document.getElementById('slider');
       const sliderValue = parseFloat(slider.value);
@@ -58,7 +65,14 @@ document.addEventListener('DOMContentLoaded', function() {
               // Check to ensure all images have been uploaded and converted
               if (imagesProcessed === event.target.files.length) {
                 renderWebpImages();
-                downloadButton.style.display = 'block';
+
+                if (event.target.files.length === 1) {
+                  downloadButtonSingle.style.display = 'block';
+                  downloadButtonMultiple.style.display = 'none';
+                } else {
+                  downloadButtonSingle.style.display = 'none';
+                  downloadButtonMultiple.style.display = 'block';
+                }
               }
             };
             reader.readAsDataURL(blob);
@@ -102,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const downloadImages = function() {
     if (webpImages.length > 0) {
-      if (downloadButton.getAttribute('data-single-file') === 'true') {
+      if (downloadButtonSingle.style.display === 'block') {
         // Download single file
         const { name, data } = webpImages[0];
         const fileName = getWebpFilename(name);
@@ -111,7 +125,6 @@ document.addEventListener('DOMContentLoaded', function() {
         downloadLink.download = fileName;
         downloadLink.click();
       } else {
-      
         const zip = new JSZip();
 
         for (let i = 0; i < webpImages.length; i++) {
@@ -132,5 +145,6 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   inputElement.addEventListener('change', convertImages);
-  downloadButton.addEventListener('click', downloadImages);
+  downloadButtonSingle.addEventListener('click', downloadImages);
+  downloadButtonMultiple.addEventListener('click', downloadImages);
 });

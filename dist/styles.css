@@ -118,8 +118,7 @@ input[type="range"]::-webkit-slider-thumb {
     margin: 60px auto 0;
 }
 
-#downloadButton {
-    display: none;
+#downloadButtonSingle, #downloadButtonMultiple {
     margin: 40px auto;
     background-color: #94EDBC;
     color: #ffffff;
@@ -129,8 +128,16 @@ input[type="range"]::-webkit-slider-thumb {
     cursor: pointer;
     transition: all 0.3s ease;
 }
+
+#downloadButtonSingle {
+    display: none;
+}
+
+#downloadButtonMultiple {
+    display: none;
+}
       
-#downloadButton:hover {
+#downloadButtonSingle:hover, #downloadButtonMultiple:hover {
     background-color: rgb(12, 93, 103);
 }
 
