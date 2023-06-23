@@ -1,0 +1,25 @@
+//Colors
+$white: #FFFFFF;
+$black: #212121;
+$gray: #F3F3F3;
+
+$text: $black;
+
+$accent: #85BA39;
+
+// Type
+$sans: 'Rubik', sans-serif;
+$serif: 'Cardo', serif;
+
+$primary: $sans;
+
+// Other vars
+$transition: all 0.2s;
+$box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+$ease-out: cubic-bezier(0.19, 1, 0.12, 1);
+$ease-out-extreme: cubic-bezier(0.15,0.9,0.15,1);
+$ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+$radius: 0.25rem;
+
+// selectors 
+$headers: "h1, h2, h3, h4, h5, h6";
