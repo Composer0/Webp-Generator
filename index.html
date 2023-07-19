@@ -13,9 +13,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
 </head>
 <body>
-    <div class="convert">
+    <div id="convert">
         <h1>Convert to WebP</h1>
-        <input aria-label="Upload an image button" type="file" accept="image/*" name="convert" id="userImage" multiple>
+        <input aria-label="Upload an image button" type="file" accept="image/*" name="convert" id="imageUploadButton" multiple>
         <div class="mask";
         ">
             <h4>Upload Images</h4>
@@ -31,28 +31,14 @@
             <span id="sliderValue">0.75</span>
         </div>
     </div>
-    <div class="images">
+
+    <div id="Converted-Images">
         <div class="container-responsive">
             <div class="row">
-
-                <div class="col-6">
-                    <h2>Original Images</h2>
-                    <div id="Uimages"></div>
+                <div class="col-12">
+                    <h2>Converted Images</h2>
+                    <div id="streamline"></div>
                 </div>
-<!-- 
-                <div class="col-4">
-                    <div class="download-section">
-                        <p class="original-size" value=""></p>
-                        <button id="downloadButtonSingle">Single Download</button>
-                        <p class="webp-size" value=""></p>
-                    </div>
-                </div> -->
-
-                <div class="col-6">
-                    <h2>WebP Images</h2>
-                    <div id="Wimages"></div>
-                </div>
-
             </div>
         </div>
     </div>
@@ -62,5 +48,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
     <script src="dist/js/bundle.js"></script>
+    <!-- <script src="dist/js/bundle2.js"></script> -->
 </body>
 </html>

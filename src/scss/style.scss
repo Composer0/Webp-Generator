@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+$green: #94EDBC;
+$blue: rgb(11, 43, 73);
 
 body {
     margin: 0;
@@ -14,10 +16,18 @@ body {
 h1, h2, h3, h4, h5, h6, p, span {
     font-family: 'Kanit', serif;
     font-weight: 600;
-    color: #94EDBC;
+    color: $green;
 }
 
-h1, h2, h4 { color: #94EDBC;}
+h1, h2, h4 { color: $green;}
+
+h2 {
+    margin-bottom: 30px;
+}
+
+p {
+    text-align: center;
+}
 
 img {
     /* width: 100%; */
@@ -32,119 +42,163 @@ img {
     margin-left: 0;
 }
 
-.convert {
+#convert {
     position: relative;
     margin-top: 50px;
     text-align: center;
+
+    #imageUploadButton {
+        top: 21px;
+        height: 125px;
+        background-color: $blue;
+        border-radius: 10px;
+        width: 255px;;
+        cursor: pointer;
+        opacity: 0;
+    }
+    
+    .mask {
+        position: absolute;
+        top: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 100px;
+        width: 255px;
+        background-color: $blue;
+        border-radius: 10px;
+        border: 1px solid $green;
+        z-index: -1;
+        
+        h4 {
+            margin-top: 28px;
+            font-size: 30px;
+            color: $green;
+        }
+    }
+
+    .slider-wrapper {
+        display: flex;
+        flex-direction: column;
+        max-width: 555px;
+        margin: 0 auto;
+        padding-top: 20px;
+        
+        .slider-info-wrapper {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            color: $green;
+            p {
+                padding: 30px;
+            }
+        }
+
+        #sliderValue { 
+            color: $green;
+            font-size: 20px;
+            font-weight: 400;
+        }
+    }
+    
+    input[type="range"] {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 8px;
+        background-color: $green;
+        outline: none;
+        border-radius: 4px;
+        
+        &::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background-color: $green;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+    }
+
+    #downloadButtonSingle {
+        display: none;
+    }
+    
+    #downloadButtonMultiple {
+        display: none;
+    }
+    
+    #downloadButtonSingle, #downloadButtonMultiple {
+        margin: 40px auto;
+        background-color: $blue;
+        color: $green;
+        font-weight: 700;
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: 1px solid $green;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    #downloadButtonSingle:hover, #downloadButtonMultiple:hover {
+        background-color: rgb(12, 93, 103);
+    }
 }
 
-.slider-wrapper {
-    display: flex;
-    flex-direction: column;
-    max-width: 555px;
-    margin: 0 auto;
-    padding-top: 20px;
-}
 
-.slider-info-wrapper {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    color: #94EDBC;
-}
 
-.slider-info-wrapper p {
-    padding: 30px;
-}
-
-input[type="range"] {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 8px;
-    background-color: #94EDBC;
-    outline: none;
-    border-radius: 4px;
-  }
-  
-input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 16px;
-    height: 16px;
-    background-color: #94EDBC;
-    cursor: pointer;
-    border-radius: 50%;
-}
-
-#sliderValue { 
-    color: #94EDBC;
-    font-size: 20px;
-    font-weight: 400;
-}
-
-#userImage {
-    top: 21px;
-    height: 125px;
-    background-color: rgb(5, 35, 100);
-    border-radius: 10px;
-    width: 255px;;
-    cursor: pointer;
-    opacity: 0;
-}
-
-.mask {
-    position: absolute;
-    top: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 100px;
-    width: 255px;
-    background-color: rgb(11, 43, 73);
-    border-radius: 10px;
-    border: 1px solid #94EDBC;
-    z-index: -1;
-}
-
-.mask h4 {
-    margin-top: 28px;
-    font-size: 30px;
-    color: #94EDBC;
-}
-
-.images {
+#Converted-Images {
     display: flex;
     flex-wrap: wrap;
     text-align: center;
     flex-direction: column;
     justify-content: center;
     margin: 60px auto 0;
-}
 
-#downloadButtonSingle, #downloadButtonMultiple {
-    margin: 40px auto;
-    background-color: #94EDBC;
-    color: #ffffff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
+    #streamline {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+        .filename-wrapper {
+            font-weight: 700;
+            font-size: 20px;
+            padding-bottom: 20px;
+        }
+        
+        .file-wrapper-row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            max-height: 80px;
+            padding-bottom: 60px;
+            border-bottom: 1px solid $green;
+            margin-bottom: 20px;
+            @media (max-width: 600px) {
+                flex-direction: column;
+                max-height: none;
+                padding-bottom: 20px;
+                margin-bottom: 40px;
+            }
+        }
 
-#downloadButtonSingle {
-    display: none;
-}
+        .webp-image {
+            max-width: 200px;
+            margin: 0 20;
+        }
 
-#downloadButtonMultiple {
-    display: none;
+        .data-wrapper {
+            max-width: 203px;
+            padding: 0 30px;
+        }
+        
+        .single-download {
+            background-color: rgb(11, 43, 73);
+            border-radius: 5px;
+            border: 1px solid $green;
+            color: $green;
+            padding: 12px 20px;
+            margin: 10px auto 20px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+    }
 }
-      
-#downloadButtonSingle:hover, #downloadButtonMultiple:hover {
-    background-color: rgb(12, 93, 103);
-}
-
-#Uimages, #Wimages {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-

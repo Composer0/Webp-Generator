@@ -1,67 +1,35 @@
-# WebP Image Converter
+# OZ Starter Theme
+![OZ Starter Theme version 1.0.0](https://img.shields.io/badge/version-1.0.0-85BA39.svg)
 
-This JavaScript script provides a simple web application for converting uploaded images to the WebP format. The converted images can then be downloaded as a ZIP file.
+## Coding Standards
+This theme will require you to following the <a href="https://codex.wordpress.org/WordPress_Coding_Standards">WordPress coding standards</a> for PHP, HTML and JavaScript.
 
-## Usage
+## Building the Theme
+Be sure to read the prerequisites below if this is the first time using this theme.
+1. CD into the theme folder and run `npm run init`.
 
-1. Include the script in your HTML file:
-
-   ```html
-   <script src="script.js"></script>
-   ```
-
-2. Create the necessary HTML elements in your markup:
-
-   ```html
-   <input type="file" id="userImage">
-   <div id="Uimages"></div>
-   <div id="Wimages"></div>
-   <button id="downloadButton" style="display: none;">Download WebP Images</button>
-   ```
-
-3. Initialize the image conversion functionality:
-
-   ```javascript
-   document.addEventListener('DOMContentLoaded', function() {
-       // Code from the script.js file
-   });
-   ```
-
-## Functionality
-
-The script attaches event listeners to the file input element and the download button to handle the image conversion and download processes.
-
-When a user selects one or multiple images using the file input, the script processes each image sequentially. It performs the following steps for each image:
-
-1. Displays the original image on the page.
-2. Converts the image to the WebP format using the HTML5 canvas element.
-3. Displays the converted WebP image on the page.
-4. Stores the WebP image data in an array.
-
-Once all images have been processed, the download button becomes visible. Clicking the download button creates a ZIP file containing all the converted WebP images. The file is then automatically downloaded to the user's device.
-
-## Dependencies
-
-This script relies on the following libraries:
-
-- [JSZip](https://stuk.github.io/jszip/): A JavaScript library for creating ZIP files.
-
-Make sure to include the JSZip library in your HTML file before including the script.js file:
-
-```html
-<script src="jszip.min.js"></script>
-<script src="script.js"></script>
+There you go, everything should be installed and ready to go!
+Start developing with [SASS](https://sass-lang.com/documentation), [SourceMapping](https://www.schneems.com/2017/11/14/wtf-is-a-source-map/) and [BrowserSync](https://browsersync.io/):
+```sh
+npm run dev
+```
+Before pushing any final JS or CSS to production, be sure to run the following to minify those files. if the site is still in development, there is no need to run this. this will also remove the SourceMapping.
+```sh
+npm run build
 ```
 
-## Compatibility
+## Prerequisites
+If this is the first project with the latest version of the theme, you may need to install a few things to make sure your local system is setup properly.
 
-This script utilizes modern JavaScript features and HTML5 capabilities. Ensure that your target browsers support the following features:
+### Requirements
+- PHP 7.0
+- npm and node
+- <a href="https://brew.sh/">Homebrew</a> (optional)
 
-- [HTML5 File API](https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications)
-- [HTML5 Canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
+### PHP
+If you are on a Mac, you should already have PHP 7 or higher.
 
-It is recommended to test the functionality on various browsers to ensure compatibility.
+### npm
+If you are not sure weather you have npm and node installed, you can try the command `node -v` and `npm -v`. if both are installed, you are good to go. if not, one of the easiest ways to get those up and running is to install it directly from [their website](https://nodejs.org/en/download/).
 
-## License
-
-This script is licensed under the MIT License. You are free to use, modify, and distribute it in your projects. Refer to the [LICENSE](LICENSE) file for more information.
+After you have Homebrew, you can simply run `brew update` and then `brew install node`. Be sure to double check by running those tests mentioned earlier. You may need to restart your terminal as well.
