@@ -21,7 +21,7 @@
             <h4>Upload Images</h4>
         </div>
         <button id="downloadButtonSingle" data-single-file="true" multiple>Download WebP</button>
-        <button id="downloadButtonMultiple" data-single-file="false" multiple>Download WebP</button>
+        <button id="downloadButtonMultiple" data-single-file="false" multiple>Download All</button>
         <div class="slider-wrapper">
             <div class="slider-info-wrapper">
                 <p>More Compression</p>
@@ -39,6 +39,20 @@
                     <h2>Converted Images</h2>
                     <div id="streamline"></div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="popup-card" class="hide">
+        <button class="close-button">x</button>
+        <div id="image-wrapper">
+            <div id="image-container">
+                <!-- Javascript will template the images here. -->
+            </div>
+            <input type="range" min="0" max="100" value="50%" class="comparison-slider" aria-label="Percentage of before photo shown">
+            <!-- <div class="comparison-slider-line"></div> -->
+            <!-- <div class="comparison-slider-button" aria-hidden="true"> -->
+                <!-- image slot -->
             </div>
         </div>
     </div>

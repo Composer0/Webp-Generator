@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Convert images into the webp format.">
+    <title>WebP Generator</title>
+    <!-- places files into a zip folder -->
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link rel="stylesheet" href="dist/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
+</head>
+<body>
+
+	<div id="image-wrapper">
+		<div id="image-container">
+			<img class="image-before" src="dist/images/cat.jpg" alt="original image">
+
+			<img class="image-after" src="dist/images/clarinet.webp" alt="webp image">
+		</div>
+		<input type="range" min="0" max="100" value="50%" class="comparison-slider" aria-label="Percentage of before photo shown">
+		<div class="comparison-slider-line"></div>
+		<!-- <div class="comparison-slider-button" aria-hidden="true"> -->
+			<!-- image slot -->
+		</div>
+	</div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>	
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
+    <!-- <script src="dist/js/bundle.js"></script> -->
+    <!-- <script src="dist/js/bundle2.js"></script> -->
+	<script src="src/js/parts/comparison-slider.js"></script>
+</body>
+</html>
