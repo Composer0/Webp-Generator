@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const imageElements = []; // *Array to store original and converted image elements
   let isImageProcessing = false;
 
-  const convertImages = function(event) {
+  const convertImages = async function(event) {
     if (isImageProcessing) {
       console.log("Ongoing image processing. Please wait...");
       return;
@@ -51,13 +51,13 @@ document.addEventListener('DOMContentLoaded', function() {
           convertedImage,
           convertedDataSize,
           originalImage, // Store the original image element
-          originalImageURL: URL.createObjectURL(file),
+          originalImageURL: null,
           webpImageURL: null, // This will be updated once we have the image processed.
           imageIndex: i,
         };
   
         // Process image and update elements
-        processImage(event, file, originalDataSize, convertedImage, convertedDataSize, sliderValue, document.getElementById('popup-card'), i);
+        await processImage(event, file, originalDataSize, convertedImage, convertedDataSize, sliderValue, document.getElementById('popup-card'), i);
       }
     }
   };
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             
             
-            imageElements[imageIndex].originalImage = originalImage; 
+            imageElements[imageIndex].originalImageURL = originalImage; 
             imageElements[imageIndex].webpImageURL = webpImage; //Store the converted WebP image URL here
             
             // *Update file size elements and converted image data
@@ -105,10 +105,17 @@ document.addEventListener('DOMContentLoaded', function() {
             // *Store WebP image data with original filename
             const originalFilename = file.name;
             const webpFilename = getWebpFilename(originalFilename);
-            imagesProcessed++; // *get the image index from the imagesProcessed counter
+            imageElements[imageIndex].originalFilename = originalFilename;
+            // imagesProcessed++; // *get the image index from the imagesProcessed counter
+
+             convertedImage.dataset.index = imageIndex;
+             imageElements[imageIndex].originalImageURL = originalImage;
+             imageElements[imageIndex].webpImageURL = webpImage;
             
             // *Store WebP image data
             webpImages[imageIndex] = { name: originalFilename, data: webpImage, filename: webpFilename };
+
+            imagesProcessed++;
             
             // *Check to ensure all images have been uploaded and converted
             if (imagesProcessed === event.target.files.length) {
@@ -164,8 +171,16 @@ document.addEventListener('DOMContentLoaded', function() {
   
     // Sort the imageElements array based on the originalImageURL property
     imageElements.sort((a, b) => {
-      return a.originalImageURL.localeCompare(b.originalImageURL);
+      return a.originalImageURL.src.localeCompare(b.originalImageURL.src);
     });
+
+    const matchedArray = webpImages.map((webpImage, index) => ({
+      ...webpImage,
+      ...imageElements[index]
+    }));
+    console.log(matchedArray);
+
+    
 
     // *Clear the existing images
     const streamlineContainer = document.querySelector('#streamline');
@@ -174,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // *Render WebP images in order
     for (let i = 0; i < webpImages.length; i++) {
-      const { name, data, filename } = webpImages[i];
+      const { name, data, filename, originalImageURL } = matchedArray[i];
       const imageElement = imageElements[i];
       const { originalDataSize, convertedImage, convertedDataSize } = imageElement;
 
@@ -241,13 +256,15 @@ comparisonButton.addEventListener("click", (e) => {
     const originalImageElement = document.createElement('img');
     originalImageElement.classList.add('image-before');
     originalImageElement.alt = 'original image';
-    originalImageElement.src = imageElements[dataIndex].originalImageURL;
+    // originalImageElement.src = matchedArray[dataIndex].originalImageURL;
+    originalImageElement.src = originalImageURL.src;
     imagesContainer.appendChild(originalImageElement);
 
     const convertedImageElement = document.createElement('img');
     convertedImageElement.classList.add('image-after');
     convertedImageElement.alt = 'converted image';
-    convertedImageElement.src = webpImages[dataIndex].data;
+    // convertedImageElement.src = matchedArray[dataIndex].data;
+    convertedImageElement.src = data;
     imagesContainer.appendChild(convertedImageElement);
 
     popup.classList.remove('hide');
