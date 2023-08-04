@@ -105,6 +105,11 @@ document.addEventListener('DOMContentLoaded', function() {
             // *Store WebP image data with original filename
             const originalFilename = file.name;
             const webpFilename = getWebpFilename(originalFilename);
+            webpImages.push({
+              name: originalFilename,
+              data: webpImage,
+              originalBlob: file, //Store the original image blob for render purposes
+            });
             imageElements[imageIndex].originalFilename = originalFilename;
             // imagesProcessed++; // *get the image index from the imagesProcessed counter
 
@@ -113,7 +118,8 @@ document.addEventListener('DOMContentLoaded', function() {
              imageElements[imageIndex].webpImageURL = webpImage;
             
             // *Store WebP image data
-            webpImages[imageIndex] = { name: originalFilename, data: webpImage, filename: webpFilename };
+            webpImages[imageIndex] = { name: originalFilename, data: webpImage, filename: webpFilename, originalBlob:file };
+            console.log(webpImages)
 
             imagesProcessed++;
             
@@ -164,14 +170,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // !Render Webp images and data
   function renderWebpImages() {
-
-    webpImages.sort((a, b) => {
-      return a.name.localeCompare(b.name);
-    });
   
     // Sort the imageElements array based on the originalImageURL property
     imageElements.sort((a, b) => {
       return a.originalImageURL.src.localeCompare(b.originalImageURL.src);
+    });
+
+    webpImages.sort((a, b) => {
+      return a.name.localeCompare(b.name);
     });
 
     const matchedArray = webpImages.map((webpImage, index) => ({
@@ -189,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // *Render WebP images in order
     for (let i = 0; i < webpImages.length; i++) {
-      const { name, data, filename, originalImageURL } = matchedArray[i];
+      const { name, data, filename, originalImageURL, originalBlob } = matchedArray[i];
       const imageElement = imageElements[i];
       const { originalDataSize, convertedImage, convertedDataSize } = imageElement;
 
@@ -234,45 +240,45 @@ document.addEventListener('DOMContentLoaded', function() {
       fileWrapperRow.appendChild(convertedFileSize);
 
 
-// ...
-// *Create a Comparison Button
-const popup = document.getElementById('popup-card');
-const comparisonButton = document.createElement('button');
-comparisonButton.innerText = 'Compare';
-comparisonButton.classList.add('compare-button');
-comparisonButton.dataset.index = i; // Set data-index attribute directly
-comparisonButton.addEventListener("click", (e) => {
-  const imagesContainer = document.getElementById('image-container');
-  const beforeImage = imagesContainer.querySelector('.image-before');
-  const afterImage = imagesContainer.querySelector('.image-after');
+      // *Create a Comparison Button
+      const popup = document.getElementById('popup-card');
+      const comparisonButton = document.createElement('button');
+      comparisonButton.innerText = 'Compare';
+      comparisonButton.classList.add('compare-button');
+      comparisonButton.dataset.index = i; // Set data-index attribute directly
+      comparisonButton.addEventListener("click", (e) => {
+        const imagesContainer = document.getElementById('image-container');
+        const beforeImage = imagesContainer.querySelector('.image-before');
+        const afterImage = imagesContainer.querySelector('.image-after');
 
-  if (beforeImage && afterImage) {
-    imagesContainer.removeChild(beforeImage);
-    imagesContainer.removeChild(afterImage);
-  } else {
-    // Use e.target to get the element that triggered the event
-    const dataIndex = e.target.dataset.index; // Access the data-index directly
+        if (beforeImage && afterImage) {
+          imagesContainer.removeChild(beforeImage);
+          imagesContainer.removeChild(afterImage);
+        } else {
+          // Use e.target to get the element that triggered the event
+          const dataIndex = e.target.dataset.index; // Access the data-index directly
 
-    const originalImageElement = document.createElement('img');
-    originalImageElement.classList.add('image-before');
-    originalImageElement.alt = 'original image';
-    // originalImageElement.src = matchedArray[dataIndex].originalImageURL;
-    originalImageElement.src = originalImageURL.src;
-    imagesContainer.appendChild(originalImageElement);
+          const originalImageElement = document.createElement('img');
+          originalImageElement.classList.add('image-before');
+          originalImageElement.alt = 'original image';
+          // originalImageElement.src = matchedArray[dataIndex].originalImageURL;
+          // originalImageElement.src = matchedArray[dataIndex].originalBlob;
+          originalImageElement.src = URL.createObjectURL(matchedArray[dataIndex].originalBlob);
 
-    const convertedImageElement = document.createElement('img');
-    convertedImageElement.classList.add('image-after');
-    convertedImageElement.alt = 'converted image';
-    // convertedImageElement.src = matchedArray[dataIndex].data;
-    convertedImageElement.src = data;
-    imagesContainer.appendChild(convertedImageElement);
+          imagesContainer.appendChild(originalImageElement);
 
-    popup.classList.remove('hide');
-    popup.classList.add('show');
-  }
-});
-fileWrapperRow.appendChild(comparisonButton);
-// ...
+          const convertedImageElement = document.createElement('img');
+          convertedImageElement.classList.add('image-after');
+          convertedImageElement.alt = 'converted image';
+          // convertedImageElement.src = matchedArray[dataIndex].data;
+          convertedImageElement.src = data;
+          imagesContainer.appendChild(convertedImageElement);
+
+          popup.classList.remove('hide');
+          popup.classList.add('show');
+        }
+      });
+      fileWrapperRow.appendChild(comparisonButton);
 
   
       // *Create a button for individual download
@@ -314,6 +320,18 @@ fileWrapperRow.appendChild(comparisonButton);
     } catch (error) {
       console.error('Error downloading image', error);
     }
+  }
+
+    // Function to convert dataURI to blob
+  function dataURItoBlob(dataURI) {
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeString });
   }
 
   const downloadImages = function() {
