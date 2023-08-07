@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const imageElements = []; // *Array to store original and converted image elements
   let isImageProcessing = false;
 
-  const convertImages = async function(event) {
+  const convertImages = function(event) {
     if (isImageProcessing) {
       console.log("Ongoing image processing. Please wait...");
       return;
@@ -55,15 +55,16 @@ document.addEventListener('DOMContentLoaded', function() {
           webpImageURL: null, // This will be updated once we have the image processed.
           imageIndex: i,
         };
+        console.log("Original Data Size for image", i, ":", imageElements[i].originalDataSize);
   
         // Process image and update elements
-        await processImage(event, file, originalDataSize, convertedImage, convertedDataSize, sliderValue, document.getElementById('popup-card'), i);
+        processImage(event, file, originalDataSize, convertedImage, convertedDataSize, sliderValue, document.getElementById('popup-card'), i);
       }
     }
   };
 
   // !Process Image
-  async function processImage(event, file, originalDataSize, convertedImage, convertedDataSize, sliderValue, popup, imageIndex) {
+   function processImage(event, file, originalDataSize, convertedImage, convertedDataSize, sliderValue, popup, imageIndex) {
     const startTime = performance.now();
     console.log('processing image: ', file)
     let canvas = document.createElement('canvas');
@@ -112,22 +113,24 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             imageElements[imageIndex].originalFilename = originalFilename;
             // imagesProcessed++; // *get the image index from the imagesProcessed counter
+            imagesProcessed++;
 
-             convertedImage.dataset.index = imageIndex;
-             imageElements[imageIndex].originalImageURL = originalImage;
-             imageElements[imageIndex].webpImageURL = webpImage;
-            
+            convertedImage.dataset.index = imageIndex;
+            imageElements[imageIndex].originalImageURL = originalImage;
+            imageElements[imageIndex].webpImageURL = webpImage;
+          
             // *Store WebP image data
             webpImages[imageIndex] = { name: originalFilename, data: webpImage, filename: webpFilename, originalBlob:file };
             console.log(webpImages)
 
-            imagesProcessed++;
             
             // *Check to ensure all images have been uploaded and converted
             if (imagesProcessed === event.target.files.length) {
               renderWebpImages();
               console.log(renderWebpImages())
-              if (event.target.files.length === 1) {
+              
+              if (imagesProcessed === 1) {
+                console.log("Number of files uploaded:", imagesProcessed);
                 downloadButtonSingle.style.display = 'block';
                 downloadButtonMultiple.style.display = 'none';
               } else {
@@ -138,20 +141,20 @@ document.addEventListener('DOMContentLoaded', function() {
           const endTime = performance.now();
           const processingTime = endTime - startTime;
           console.log('Processing time:', processingTime);
-          isImageProcessing = false;
+          // isImageProcessing = false;
         };
         reader.readAsDataURL(blob);
       }, 'image/webp', sliderValue);
     };
-    const originalImageURL = URL.createObjectURL(file);
-    await new Promise((resolve) => {
-      const interval = setInterval(() => {
-        if (originalImageURL) {
-          clearInterval(interval);
-          resolve();
-        }
-      }, 50);
-    })
+    // const originalImageURL = URL.createObjectURL(file);
+    // await new Promise((resolve) => {
+    //   const interval = setInterval(() => {
+    //     if (originalImageURL) {
+    //       clearInterval(interval);
+    //       resolve();
+    //     }
+    //   }, 50);
+    // })
   }
 
   // *Update the slider value display
@@ -172,13 +175,13 @@ document.addEventListener('DOMContentLoaded', function() {
   function renderWebpImages() {
   
     // Sort the imageElements array based on the originalImageURL property
-    imageElements.sort((a, b) => {
-      return a.originalImageURL.src.localeCompare(b.originalImageURL.src);
-    });
+    // imageElements.sort((a, b) => {
+    //   return a.originalImageURL.src.localeCompare(b.originalImageURL.src);
+    // });
 
-    webpImages.sort((a, b) => {
-      return a.name.localeCompare(b.name);
-    });
+    // webpImages.sort((a, b) => {
+    //   return a.name.localeCompare(b.name);
+    // });
 
     const matchedArray = webpImages.map((webpImage, index) => ({
       ...webpImage,
@@ -195,113 +198,130 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // *Render WebP images in order
     for (let i = 0; i < webpImages.length; i++) {
-      const { name, data, filename, originalImageURL, originalBlob } = matchedArray[i];
-      const imageElement = imageElements[i];
-      const { originalDataSize, convertedImage, convertedDataSize } = imageElement;
+      const { name, data, filename, originalImageURL, originalBlob, originalDataSize, convertedImage, convertedDataSize } = matchedArray[i];
+      // const {  } = imageElements[i];
 
-      const startTimeRendering = performance.now();
-      console.log('rendering webp: ', filename)
-    
-      // *Create a div to hold each image's content
-      const fileWrapper = document.createElement('div');
-      fileWrapper.classList.add('file-wrapper');
+      if (convertedImage && originalDataSize && convertedDataSize) {
+        const startTimeRendering = performance.now();
+        console.log('rendering webp: ', filename)
       
-      // *Show file name
-      const fileNameElement = document.createElement('p');
-      const fileNameText = document.createTextNode('File Name:' + ' ');
-      // *const brElement = document.createElement('br');
-      const filenameText = document.createTextNode(filename);
+        // *Create a div to hold each image's content
+        const fileWrapper = document.createElement('div');
+        fileWrapper.classList.add('file-wrapper');
+        
+        // *Show file name
+        const fileNameElement = document.createElement('p');
+        const fileNameText = document.createTextNode('File Name:' + ' ');
+        // *const brElement = document.createElement('br');
+        const filenameText = document.createTextNode(filename);
 
-      fileNameElement.appendChild(fileNameText);
-      // *fileNameElement.appendChild(brElement);
-      fileNameElement.appendChild(filenameText);
-  
-      fileNameElement.classList.add('filename-wrapper');
-      fileWrapper.appendChild(fileNameElement);
-
-      const fileWrapperRow = document.createElement('div');
-      fileWrapperRow.classList.add('file-wrapper-row')
-
-      // *Show WebP image
-      convertedImage.src = data;
-      convertedImage.alt = name; // *Set the alt attribute to the original filename
-      fileWrapperRow.appendChild(convertedImage);
-
+        fileNameElement.appendChild(fileNameText);
+        // *fileNameElement.appendChild(brElement);
+        fileNameElement.appendChild(filenameText);
     
-      // *Show file sizes
-      const originalFileSize = document.createElement('p');
-      originalFileSize.innerText = originalDataSize.innerText;
-      originalFileSize.classList.add('data-wrapper');
-      fileWrapperRow.appendChild(originalFileSize);
+        fileNameElement.classList.add('filename-wrapper');
+        fileWrapper.appendChild(fileNameElement);
+
+        const fileWrapperRow = document.createElement('div');
+        fileWrapperRow.classList.add('file-wrapper-row')
+
+        // *Show WebP image
+        convertedImage.src = data;
+        convertedImage.alt = name; // *Set the alt attribute to the original filename
+        fileWrapperRow.appendChild(convertedImage);
+
       
-      const convertedFileSize = document.createElement('p');
-      convertedFileSize.innerText = convertedDataSize.innerText;
-      convertedFileSize.classList.add('data-wrapper');
-      fileWrapperRow.appendChild(convertedFileSize);
+        // *Show file sizes
+        const originalFileSize = document.createElement('p');
+        originalFileSize.innerText = originalDataSize.innerText;
+        originalFileSize.classList.add('data-wrapper');
+        fileWrapperRow.appendChild(originalFileSize);
+        
+        const convertedFileSize = document.createElement('p');
+        convertedFileSize.innerText = convertedDataSize.innerText;
+        convertedFileSize.classList.add('data-wrapper');
+        fileWrapperRow.appendChild(convertedFileSize);
 
 
-      // *Create a Comparison Button
-      const popup = document.getElementById('popup-card');
-      const comparisonButton = document.createElement('button');
-      comparisonButton.innerText = 'Compare';
-      comparisonButton.classList.add('compare-button');
-      comparisonButton.dataset.index = i; // Set data-index attribute directly
-      comparisonButton.addEventListener("click", (e) => {
-        const imagesContainer = document.getElementById('image-container');
-        const beforeImage = imagesContainer.querySelector('.image-before');
-        const afterImage = imagesContainer.querySelector('.image-after');
+        // *Create a Comparison Button
+        const popup = document.getElementById('popup-card');
+        const comparisonButton = document.createElement('button');
+        comparisonButton.classList.add('compare-button');
+        
+        const comparisonButtonContainer = document.createElement('a');
+        comparisonButtonContainer.classList.add('compare-button');
+        
+        
+        const comparisonButtonIcon = document.createElement('i');
+        comparisonButtonIcon.classList.add('fas', 'fa-info-circle');
+        comparisonButtonIcon.dataset.index = i; // Set data-index attribute directly
 
-        if (beforeImage && afterImage) {
-          imagesContainer.removeChild(beforeImage);
-          imagesContainer.removeChild(afterImage);
-        } else {
-          // Use e.target to get the element that triggered the event
-          const dataIndex = e.target.dataset.index; // Access the data-index directly
+        comparisonButtonContainer.appendChild(comparisonButtonIcon);
 
-          const originalImageElement = document.createElement('img');
-          originalImageElement.classList.add('image-before');
-          originalImageElement.alt = 'original image';
-          // originalImageElement.src = matchedArray[dataIndex].originalImageURL;
-          // originalImageElement.src = matchedArray[dataIndex].originalBlob;
-          originalImageElement.src = URL.createObjectURL(matchedArray[dataIndex].originalBlob);
 
-          imagesContainer.appendChild(originalImageElement);
+        comparisonButtonIcon.addEventListener("click", (e) => {
+          const imagesContainer = document.getElementById('image-container');
+          const beforeImage = imagesContainer.querySelector('.image-before');
+          const afterImage = imagesContainer.querySelector('.image-after');
 
-          const convertedImageElement = document.createElement('img');
-          convertedImageElement.classList.add('image-after');
-          convertedImageElement.alt = 'converted image';
-          // convertedImageElement.src = matchedArray[dataIndex].data;
-          convertedImageElement.src = data;
-          imagesContainer.appendChild(convertedImageElement);
+          if (beforeImage && afterImage) {
+            imagesContainer.removeChild(beforeImage);
+            imagesContainer.removeChild(afterImage);
+          } else {
+            // Use e.target to get the element that triggered the event
+            const dataIndex = e.target.dataset.index; // Access the data-index directly
 
-          popup.classList.remove('hide');
-          popup.classList.add('show');
-        }
-      });
-      fileWrapperRow.appendChild(comparisonButton);
+            const originalImageElement = document.createElement('img');
+            originalImageElement.classList.add('image-before');
+            originalImageElement.alt = 'original image';
+            // originalImageElement.src = matchedArray[dataIndex].originalImageURL;
+            // originalImageElement.src = matchedArray[dataIndex].originalBlob;
+            originalImageElement.src = URL.createObjectURL(matchedArray[dataIndex].originalBlob);
 
+            imagesContainer.appendChild(originalImageElement);
+
+            const convertedImageElement = document.createElement('img');
+            convertedImageElement.classList.add('image-after');
+            convertedImageElement.alt = 'converted image';
+            // convertedImageElement.src = matchedArray[dataIndex].data;
+            convertedImageElement.src = data;
+            imagesContainer.appendChild(convertedImageElement);
+
+            popup.classList.remove('hide');
+            popup.classList.add('show');
+          }
+        });
+        fileWrapperRow.appendChild(comparisonButtonContainer);
+
+    
+        // *Create a button for individual download
+        const downloadButtonContainer = document.createElement('div');
+        downloadButtonContainer.classList.add('single-download');
+        const downloadButtonIcon = document.createElement('i');
+        // downloadButton.innerText = 'Download';
+        downloadButtonIcon.classList.add('fas', 'fa-download');
+        
+        downloadButtonContainer.addEventListener('click', function () {
+          downloadWebpImage(data, name);
+        });
+        downloadButtonContainer.appendChild(downloadButtonIcon);
+        fileWrapperRow.appendChild(downloadButtonContainer);
+      
+        // *Add the image content to the streamline container
+        streamlineContainer.appendChild(fileWrapper);
+        streamlineContainer.appendChild(fileWrapperRow);
+
+        const endTimeRendering = performance.now();
+        const processingTimeRendering = endTimeRendering - startTimeRendering;
+        console.log('Rendering time:', processingTimeRendering);
+      } else {
   
-      // *Create a button for individual download
-      const downloadButton = document.createElement('button');
-      downloadButton.innerText = 'Download';
-      downloadButton.classList.add('single-download');
-      downloadButton.addEventListener('click', function () {
-        downloadWebpImage(data, name);
-      });
-      fileWrapperRow.appendChild(downloadButton);
-    
-      // *Add the image content to the streamline container
-      streamlineContainer.appendChild(fileWrapper);
-      streamlineContainer.appendChild(fileWrapperRow);
-
-      const endTimeRendering = performance.now();
-      const processingTimeRendering = endTimeRendering - startTimeRendering;
-      console.log('Rendering time:', processingTimeRendering);
-    }
-    
-    // *Hide slider after conversion
-    const sliderWrapper = document.querySelector('.slider-wrapper');
-    sliderWrapper.style.display = 'none';
+        console.log(`Skipping rendering for image ${i} due to missing elements`) 
+        // *Hide slider after conversion
+      }
+      }
+      const sliderWrapper = document.querySelector('.slider-wrapper');
+      sliderWrapper.style.display = 'none';
 
   }
   
@@ -320,18 +340,6 @@ document.addEventListener('DOMContentLoaded', function() {
     } catch (error) {
       console.error('Error downloading image', error);
     }
-  }
-
-    // Function to convert dataURI to blob
-  function dataURItoBlob(dataURI) {
-    const byteString = atob(dataURI.split(',')[1]);
-    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([ab], { type: mimeString });
   }
 
   const downloadImages = function() {

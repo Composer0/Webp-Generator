@@ -1,4 +1,4 @@
-
+const PopupCard = document.getElementById('popup-card');
 const Container = document.querySelector('#image-container');
 const closeButton = document.querySelector('.close-button');
 const comparisonSlider = document.querySelector ('.comparison-slider');
