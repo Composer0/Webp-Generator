@@ -9,8 +9,26 @@ document.addEventListener('DOMContentLoaded', function() {
   let imagesProcessed = 0;
   const imageElements = []; // *Array to store original and converted image elements
   let isImageProcessing = false;
+  const PopupCard = document.getElementById('popup-card');
+  const closeButton = document.querySelector('.close-button');
+  
+  function resetProcessingState() {
+    webpImages.length = 0;
+    imageElements.length = 0;
+    isImageProcessing = false;
+  
+    // Clear existing images and data in the streamline container
+    const streamlineContainer = document.querySelector('#streamline');
+    streamlineContainer.innerHTML = '';
+  
+    // Hide download buttons
+    downloadButtonSingle.style.display = 'none';
+    downloadButtonMultiple.style.display = 'none';
+  }
 
   const convertImages = function(event) {
+    resetProcessingState();
+    
     if (isImageProcessing) {
       console.log("Ongoing image processing. Please wait...");
       return;
@@ -141,20 +159,10 @@ document.addEventListener('DOMContentLoaded', function() {
           const endTime = performance.now();
           const processingTime = endTime - startTime;
           console.log('Processing time:', processingTime);
-          // isImageProcessing = false;
         };
         reader.readAsDataURL(blob);
       }, 'image/webp', sliderValue);
     };
-    // const originalImageURL = URL.createObjectURL(file);
-    // await new Promise((resolve) => {
-    //   const interval = setInterval(() => {
-    //     if (originalImageURL) {
-    //       clearInterval(interval);
-    //       resolve();
-    //     }
-    //   }, 50);
-    // })
   }
 
   // *Update the slider value display
@@ -173,15 +181,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // !Render Webp images and data
   function renderWebpImages() {
-  
-    // Sort the imageElements array based on the originalImageURL property
-    // imageElements.sort((a, b) => {
-    //   return a.originalImageURL.src.localeCompare(b.originalImageURL.src);
-    // });
-
-    // webpImages.sort((a, b) => {
-    //   return a.name.localeCompare(b.name);
-    // });
 
     const matchedArray = webpImages.map((webpImage, index) => ({
       ...webpImage,
@@ -199,7 +198,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // *Render WebP images in order
     for (let i = 0; i < webpImages.length; i++) {
       const { name, data, filename, originalImageURL, originalBlob, originalDataSize, convertedImage, convertedDataSize } = matchedArray[i];
-      // const {  } = imageElements[i];
 
       if (convertedImage && originalDataSize && convertedDataSize) {
         const startTimeRendering = performance.now();
@@ -274,8 +272,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const originalImageElement = document.createElement('img');
             originalImageElement.classList.add('image-before');
             originalImageElement.alt = 'original image';
-            // originalImageElement.src = matchedArray[dataIndex].originalImageURL;
-            // originalImageElement.src = matchedArray[dataIndex].originalBlob;
             originalImageElement.src = URL.createObjectURL(matchedArray[dataIndex].originalBlob);
 
             imagesContainer.appendChild(originalImageElement);
@@ -283,12 +279,61 @@ document.addEventListener('DOMContentLoaded', function() {
             const convertedImageElement = document.createElement('img');
             convertedImageElement.classList.add('image-after');
             convertedImageElement.alt = 'converted image';
-            // convertedImageElement.src = matchedArray[dataIndex].data;
             convertedImageElement.src = data;
             imagesContainer.appendChild(convertedImageElement);
 
+
+            // !Remove previously generated elements if they exist
+            const prevComparisonRangeSliders = imagesContainer.querySelectorAll('.comparison-slider');
+            const prevSliderLines = imagesContainer.querySelectorAll('.slider-line');
+            const prevSliderButtons = imagesContainer.querySelectorAll('.slider-button');
+
+            prevComparisonRangeSliders.forEach(slider => slider.parentNode.removeChild(slider));
+            prevSliderLines.forEach(line => line.parentNode.removeChild(line));
+            prevSliderButtons.forEach(button => button.parentNode.removeChild(button));
+
+            const comparisonRangeSlider = document.createElement('input');
+            comparisonRangeSlider.type = 'range';
+            comparisonRangeSlider.min = '0';
+            comparisonRangeSlider.max = '100';
+            comparisonRangeSlider.value = '50%';
+            comparisonRangeSlider.classList.add('comparison-slider');
+            comparisonRangeSlider.setAttribute('aria-label', 'Percentage of before photo shown');
+            imagesContainer.appendChild(comparisonRangeSlider);
+
+            const sliderLine = document.createElement('div');
+            sliderLine.classList.add('slider-line');
+            imagesContainer.appendChild(sliderLine);
+            
+            const sliderButton = document.createElement("div");
+            sliderButton.classList.add("slider-button", "fas", "fa-arrows-alt-h");
+            imagesContainer.appendChild(sliderButton);
+
+            // !Slider Functionality
+            const Container = document.querySelector('#image-container');
+            
+            const comparisonSliders = document.querySelectorAll ('.comparison-slider');
+
+            comparisonSliders.forEach(comparisonSlider => {
+              comparisonSlider.addEventListener('input', (e) => {
+                Container.style.setProperty('--position', `${e.target.value}%`);
+              })
+            });
+
+
             popup.classList.remove('hide');
             popup.classList.add('show');
+
+          // !Popup Card
+          closeButton.addEventListener('click', () => {
+            PopupCard.classList.remove('show');
+            PopupCard.classList.add('hide');  
+
+            comparisonSliders.forEach(comparisonSlider => {
+              comparisonSlider.value = 50;
+            })
+          });
+
           }
         });
         fileWrapperRow.appendChild(comparisonButtonContainer);
@@ -321,10 +366,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       }
       const sliderWrapper = document.querySelector('.slider-wrapper');
-      sliderWrapper.style.display = 'none';
-
+      sliderWrapper.style.display = 'none';   
   }
-  
 
   
   async function downloadWebpImage(dataURI, filename) {

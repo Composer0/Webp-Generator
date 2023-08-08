@@ -220,9 +220,20 @@ img {
     }
 }
 
+#popup-card-container {
+    background: #000;
+    height: 100vh;
+    width: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
 #popup-card {
-    position: absolute;
-    top: 50%;
+    backdrop-filter: blur(10px);
+    background-color: rgba(0,0,0,0.37);
+    height: auto;
+    position: fixed;
+    top: 40%;
     left: 50%;
     background-color: transparent;
     padding: 20px;
@@ -257,6 +268,7 @@ img {
     display: grid;
     place-items: center;
     position: relative;
+    padding: 0 40px; 
 
     #image-container {
         display: grid;
@@ -270,6 +282,7 @@ img {
             display: block;
             width: 100%;
             height: 92%;
+            max-height: 500px;
             max-width: 800px;
             min-height: auto;
             object-fit: cover;
@@ -285,19 +298,50 @@ img {
         
     }
     .comparison-slider {
+        position: absolute;
         inset: 0;
         cursor: pointer;
-        opacity: 1;
+        opacity: 0;
         // For Firefox
-        max-width: 500px;
         margin: 0 auto;
         width: 100%;
+        height: 100%;
+        z-index: 93px;
+        display: block;
 
         &:focus-visible ~ .slider-button {
             outline: 5px solid black;
             outline-offset: 3px;
         }
     }
+
+    .slider-line {
+        position: absolute;
+        inset: 0;
+        width: .2rem;
+        height: 100%;
+        background-color: $green;
+        z-index: 100;
+        left: var(--position);
+    }
+    .slider-button {
+        position: absolute;
+        background-color: $blue;
+        color: $green;
+        border: 2px solid $green;
+        padding: .5rem;
+        border-radius: 100vw;
+        display: grid;
+        place-items: center;
+        top: 45%;
+        left: var(--position);
+        transform: translate(-50%, 50%);
+        pointer-events: none;
+        z-index: 100;
+
+    }
+
+
     // .comparison-slider-line {
     //     position: absolute;
     //     inset: 0;
