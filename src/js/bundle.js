@@ -1,5 +1,13 @@
-import "./parts/comparison-slider"
 import "regenerator-runtime/runtime";
+
+// !Don't remove. Ensures Firefox has the same drag and drop support as Sarafi and Chromium based browsers.
+document.addEventListener("dragover", function(e) {
+  e.preventDefault();
+});
+
+document.addEventListener("drop", function(e) {
+  convertImages();
+});
 
 document.addEventListener('DOMContentLoaded', function() {
   const webpImages = [];
@@ -11,7 +19,8 @@ document.addEventListener('DOMContentLoaded', function() {
   let isImageProcessing = false;
   const PopupCard = document.getElementById('popup-card');
   const closeButton = document.querySelector('.close-button');
-  
+
+
   function resetProcessingState() {
     webpImages.length = 0;
     imageElements.length = 0;
@@ -28,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const convertImages = function(event) {
     resetProcessingState();
-    
+
     if (isImageProcessing) {
       console.log("Ongoing image processing. Please wait...");
       return;
@@ -106,12 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
           reader.onloadend = function() {
             const webpImage = reader.result;
             
-            // Update webp image elements.
-            // const imageIndex = imagesProcessed++;
-            // const dataIndex = imageElements[imageIndex].dataIndex;
-            convertedImage.dataset.index = imageIndex;
-            
-            
+            convertedImage.dataset.index = imageIndex;          
             
             imageElements[imageIndex].originalImageURL = originalImage; 
             imageElements[imageIndex].webpImageURL = webpImage; //Store the converted WebP image URL here
@@ -178,7 +182,6 @@ document.addEventListener('DOMContentLoaded', function() {
     return filename + '.webp';
   }
 
-
   // !Render Webp images and data
   function renderWebpImages() {
 
@@ -187,8 +190,6 @@ document.addEventListener('DOMContentLoaded', function() {
       ...imageElements[index]
     }));
     console.log(matchedArray);
-
-    
 
     // *Clear the existing images
     const streamlineContainer = document.querySelector('#streamline');
@@ -319,7 +320,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 Container.style.setProperty('--position', `${e.target.value}%`);
               })
             });
-
 
             popup.classList.remove('hide');
             popup.classList.add('show');

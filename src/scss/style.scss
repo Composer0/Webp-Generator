@@ -1,7 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import "base/fonts.scss";
+@import "base/variables.scss";
 
-$green: #94EDBC;
-$blue: rgb(11, 43, 73);
 
 body {
     margin: 0;
@@ -14,7 +13,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6, p, span {
-    font-family: 'Kanit', serif;
+    font-family: $primary;
     font-weight: 600;
     color: $green;
 }
@@ -204,9 +203,7 @@ img {
         }
         
         .single-download, .compare-button {
-            // background-color: rgb(11, 43, 73);
             border-radius: 5px;
-            // border: 1px solid $green;
             color: $green;
             padding: 12px 20px;
             margin: 10px auto 20px;
@@ -315,6 +312,7 @@ img {
         }
     }
 
+    // ?Vertical Slider Line
     .slider-line {
         position: absolute;
         inset: 0;
@@ -324,6 +322,7 @@ img {
         z-index: 100;
         left: var(--position);
     }
+
     .slider-button {
         position: absolute;
         background-color: $blue;
@@ -338,21 +337,8 @@ img {
         transform: translate(-50%, 50%);
         pointer-events: none;
         z-index: 100;
-
     }
 
-
-    // .comparison-slider-line {
-    //     position: absolute;
-    //     inset: 0;
-    //     width: .2rem;
-    //     height: 100%;
-    //     background-color: #fff;
-    //     z-index: 10;
-    //     left: var(--position);
-    //     transform: translateX(-50%);
-    //     pointer-events: none;
-    // }
     .comparison-slider-button {
         position: absolute;
         background-color: red;
@@ -363,7 +349,6 @@ img {
         place-items: center;
         top: 50%;
         left: var(--position);
-        // transform: translate(-50%, -50%);
         pointer-events: none;
         z-index: 100;
         box-shadow: 10px 10px 1px hsla(0, 0%, 0%, 0.5);

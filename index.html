@@ -4,20 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Convert images into the webp format.">
+    <!-- Favicon meta tags -->
+    <link rel="icon" href="dist/favicons/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="dist/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="dist/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="dist/favicons/android-chrome-192x192.png" sizes="192x192" type="image/png">
+    <link rel="icon" href="dist/favicons/android-chrome-512x512.png" sizes="512x512" type="image/png">
+    <link rel="apple-touch-icon" href="dist/favicons/apple-touch-icon.png" sizes="180x180">
     <title>WebP Generator</title>
+
     <!-- places files into a zip folder -->
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <link rel="stylesheet" href="dist/css/style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
 </head>
 <body>
     <div id="convert">
         <h1>Convert to WebP</h1>
         <input aria-label="Upload an image button" type="file" accept="image/*" name="convert" id="imageUploadButton" multiple>
-        <div class="mask";
-        ">
+        <div class="mask">
             <h4>Upload Images</h4>
         </div>
         <button id="downloadButtonSingle" data-single-file="true" multiple>Download WebP</button>
@@ -44,24 +50,19 @@
     </div>
 
     <div id="popup-card" class="hide">
-        <button class="close-button">x</button>
+        <button class="close-button"><i class="fas fa-times"></i></button>
         <div id="image-wrapper">
             <div id="image-container">
-                <!-- <input type="range" min="0" max="100" value="50%" class="comparison-slider" aria-label="Percentage of before photo shown"> -->
-                <!-- Javascript will template the images here. -->
+                <!-- Javascript will template the images and compression slider here. -->
             </div>
-            <!-- <div class="comparison-slider-line"></div> -->
-            <!-- <div class="comparison-slider-button" aria-hidden="true"> -->
-                <!-- image slot -->
             </div>
         </div>
     </div>
    
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>	
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="dist/js/bundle.js"></script>
-    <!-- <script src="dist/js/bundle2.js"></script> -->
 </body>
 </html>
