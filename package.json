@@ -1,7 +1,7 @@
 {
-  "name": "oz-starter",
+  "name": "composer0",
   "version": "1.0.0",
-  "description": "![OZ Starter Theme version 1.0.0](https://img.shields.io/badge/version-1.0.0-85BA39.svg)",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "gulp",
@@ -44,14 +44,5 @@
     "core-js": "^3.31.1",
     "gulp-rename": "^2.0.0"
   },
-  "resolutions": {},
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ocozzio-developer/BCBS-LP-PreventiveScreeningsCampaign-BreastCancer.git"
-  },
-  "bugs": {
-    "url": "https://github.com/ocozzio-developer/BCBS-LP-PreventiveScreeningsCampaign-BreastCancer/issues"
-  },
-  "homepage": "https://github.com/ocozzio-developer/BCBS-LP-PreventiveScreeningsCampaign-BreastCancer#readme",
-  "keywords": []
+  "resolutions": {}
 }
