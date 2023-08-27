@@ -22,7 +22,7 @@ window.addEventListener( 'load', () => {
 });
 
 /**
- * @author Harcourt Bull V
+ * @author Orion Palmer
  * @description Submits form via AJAX to Act-On
  * @param {*} form 
  * @param {*} submitBtn 
@@ -55,7 +55,7 @@ function submitForm( url, form, submitBtn, validate, ...fields ) {
 }
 
 /**
- * @author Harcourt Bull V
+ * @author Orion Palmer
  * @description Creates an error object for validation processing
  * @param  {...any} fields 
  * @returns Error object with DOM token and an error message
@@ -84,7 +84,7 @@ function validate( ...fields ) {
 }
 
 /**
- * @author Harcourt Bull V
+ * @author Orion Palmer
  * @description Makes AJAX request with form data
  * @param {*} form 
  * @param {*} url 
@@ -104,7 +104,7 @@ function ajaxReq( url, form ) {
 }
 
 /**
- * @author Harcourt Bull V 
+ * @author Orion Palmer 
  * @description Clears all input fields
  * @param  {...any} fields 
  */

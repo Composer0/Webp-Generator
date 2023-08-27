@@ -9,6 +9,24 @@
 	margin-left: 0;
 }
 
+// center with absolute positioning
+@mixin center-horizontal-vertical {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+// center with flex position
+@mixin flex-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+// Header Banner Linear Gradient
+
+
 // Burger parts
 //
 // (---) top    -> &::before

@@ -34,6 +34,19 @@
 	}
 }
 
+@mixin button-orange {
+    background-color: $orange;
+	&, span, .fl-button-text, * {
+		color: $white;
+    }
+	&:hover {
+        background-color: lighten($accent, 5%);
+		&, span, .fl-button-text, * {
+			color: $white;
+		}
+	}
+}
+
 // A hollow button style that inherit the text color of parent elements.
 @mixin button-hollow {
     background-color: transparent;
@@ -49,11 +62,53 @@
 		}
 	}
 }
+@mixin button-hollow-orange-text {
+    background-color: transparent;
+    border-color: $orange;
+	&, span, .fl-button-text, * {
+		color: $orange;
+    }
+	&:hover {
+        background-color: white;
+        border-color: $orange;
+		&, span, .fl-button-text, * {
+			color: $orange;
+		}
+	}
+}
+
+@mixin button-hollow-white {
+    background-color: transparent;
+    border-color: #fff;
+	&, span, .fl-button-text, * {
+		color: #fff;
+    }
+	&:hover {
+        background-color: #fff;
+        border-color: #fff;
+		&, span, .fl-button-text, * {
+			color: #007481;
+		}
+	}
+}
+
+.btn-padding {
+    padding: 20px 60px;
+}
 
 #body-wrapper .btn {
 	@include button-base;
     @include button-default;
     // add extra class styles here
+    &.btn-orange { @include button-orange; }
     &.btn-hollow { @include button-hollow; }
+    &.btn-hollow-orange-text { @include button-hollow-orange-text; }
+    &.btn-hollow-white { @include button-hollow-white; }
 	&.btn-large { font-size: 20px; }
+	&.btn-small { font-size: 14px; }
+}
+
+.btn-text-style {
+    font-size: 17px !important;
+    font-weight: 900 !important;
 }
