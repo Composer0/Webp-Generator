@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,14 +16,18 @@
 
     <!-- places files into a zip folder -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
     <link rel="stylesheet" href="dist/css/style.css">
 </head>
+
 <body>
     <div id="convert">
         <h1>Convert to WebP</h1>
-        <input aria-label="Upload an image button" type="file" accept="image/*" name="convert" id="imageUploadButton" multiple>
+        <input aria-label="Upload an image button" type="file" accept="image/*" name="convert" id="imageUploadButton"
+            multiple>
         <div class="mask">
             <h4>Upload Images</h4>
         </div>
@@ -31,7 +36,8 @@
         <div class="slider-wrapper">
             <div class="slider-info-wrapper">
                 <p>More Compression</p>
-                <input aria-label="slider to change the compression rate of the images" type="range" id="slider" min="0.1" max="1" step="0.01" value="0.75">
+                <input aria-label="slider to change the compression rate of the images" type="range" id="slider"
+                    min="0.1" max="1" step="0.01" value="0.75">
                 <p>Less Compression</p>
             </div>
             <span id="sliderValue">0.75</span>
@@ -55,19 +61,24 @@
             <div id="image-container">
                 <!-- Javascript will template the images and compression slider here. -->
             </div>
-            </div>
         </div>
+    </div>
     </div>
 
     <div id="processing-overlay" class="hide">
         <div class="processing-spinner"></div>
         <h2>Processing...</h2>
-      </div>
-   
+    </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>	
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.6.0/jszip.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
     <script src="dist/js/bundle.js"></script>
 </body>
+
 </html>
